@@ -1,0 +1,8 @@
+{
+   "info": "Any string containing 1s and 0s followed by a # and then that same string, reversed",
+   "start_symbol": "S",
+   "mappings": {
+        "S": ["0S0", "1S1", "#"]
+   }
+
+}

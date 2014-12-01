@@ -1,0 +1,9 @@
+{
+   "info": "some number of 'a's followed by a '#' followed by the same number of 'b's",
+   "start_symbol": "S",
+   "mappings": {
+        "S": ["aAb"],
+        "A": ["aAb", "#"]
+   }
+
+}
