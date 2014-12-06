@@ -1,68 +1,66 @@
 #!/usr/bin/python
 #
 # Created by Max Marchuk
-# View README.md for usage
 
 import sys
 import jsonpickle
 
 #Function to analyze the grammar
-def analyze(grammar, testString):
+def analyze(grammar, string):
 
-    mappings = grammar["mappings"]
-    variables = mappings.keys()
+    #initialize all the things we'll need
+    stack = []
+    dict = grammar["mappings"]   #mapping of variables to rules
+    variables = dict.keys()          
     terminals = getAlpha(grammar)
 
-    stack = []
     stack.append(grammar["start_symbol"])
 
-    while testString and stack: 
-        print "######STACK######: ", stack
-        popped = stack.pop() 
+    #begin operation on string
+    while stack and string:
+        print "Stack: ", stack
+        popped = stack.pop()
+        print " String: " + string
 
-        #if the popped element is a variable (i.e. non-terminal)
         if popped in variables:
+            firstChar = string[0]
+            rules = dict[popped]
+            ruleFound = False
 
-            #ensure that the next character in the string is the start of a rule for the variable
-            for rule in mappings[popped]:
-                print rule
-                if rule.startswith(testString[0]):
-                    for char in rule:
-                        stack.append(char) #push the rule's symbols onto the stack
-                        print stack
+            for rule in rules:
+                if rule[0] == firstChar:
+                    ruleFound = True
 
-                    testString = testString[1:] #remove the first character in the string
-                    ruleExists = True
-                    print "test string: " + testString    
+                    for char in rule[::-1]:
+                        stack.append(char)
                     break
-                else:
-                    ruleExists = False 
-            if not ruleExists:
+
+
+            if ruleFound == False:
                 return False
 
-        elif popped in terminals:
-            if popped == testString[0]:
-                testString = testString[1:] #remove the first character in the string
+        if popped in terminals:
+            if popped == string[0]: 
+                string = string[1:]
             else:
                 return False
-    if not stack and not testString:
+
+    if stack == [] and string == "":
         return True
     else:
         return False
 
 #Function to determine the alphabet of a language based on its grammar
 def getAlpha(grammar):
-    rules = grammar["mappings"]
+    rules = grammar["mappings"].values()
     variables = grammar["mappings"].keys()
     terminals = []
 
-    #Loop through all rules, removes variables, create list of all terminals
-    for rule in rules:
-        for string in rule:
-            for char in string:
-                if char not in variables:
-                    terminals.append[char]
-    terminals = set(terminals) #remove all duplicates BECAUSE WE CAN 
+    for rule_list in rules:
+        for rule in rule_list:
+            for character in rule:
+                if character not in variables and character not in terminals:
+                    terminals.append(character)
     return terminals
 
 #Function to open the file and return the decoded file as an object
@@ -75,11 +73,14 @@ if __name__ == '__main__':
         print 'Correct usage: ./analyze.py <Encoded Grammar> <Test String>'
     else:
         fileName = sys.argv[1]
-        testString = sys.argv[2]
+        string = sys.argv[2]
+        if string == "":
+            print "The empty string is not accepted for this grammar."
+
         grammar = parseFile(fileName)
 
-        if analyze(grammar, testString):
-            print u'\u2713 "' + testString + '" is in the language defined by the grammar.'
+        if analyze(grammar, string):
+            print u'\u2713 "' + string + '" is in the language defined by the grammar.'
         else:
-            print u'\u2717 "' + testString + '" is NOT in the language defined by the grammar.'
+            print u'\u2717 "' + string + '" is NOT in the language defined by the grammar.'
 

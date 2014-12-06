@@ -2,7 +2,7 @@
    "info": "Some number of 'a's followed by #, followed by the same number of 'b's, followed by #, ollowed by some number of 'c', followed by #",
    "start_symbol": "S",
    "mappings": {
-        "S": ["aAbcB"],
+        "S": ["aAb#cB"],
         "A": ["aAb", "#"],
         "B": ["cB", "#"]
    }

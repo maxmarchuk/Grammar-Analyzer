@@ -1,0 +1,9 @@
+{
+   "info": "Any algebraic expression with the operators {+, -, *, /} and terms x, y, and z. Each operation must be surrounded by parens",
+   "start_symbol": "S",
+   "mappings": {
+        "S": ["(SAS)","a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+        "A": ["+", "-", "*", "/", "^"] 
+   }
+
+}
