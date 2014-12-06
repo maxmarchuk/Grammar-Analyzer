@@ -18,9 +18,7 @@ def analyze(grammar, string):
 
     #begin operation on string
     while stack and string:
-        print "Stack: ", stack
         popped = stack.pop()
-        print " String: " + string
 
         if popped in variables:
             firstChar = string[0]
@@ -74,9 +72,6 @@ if __name__ == '__main__':
     else:
         fileName = sys.argv[1]
         string = sys.argv[2]
-        if string == "":
-            print "The empty string is not accepted for this grammar."
-
         grammar = parseFile(fileName)
 
         if analyze(grammar, string):
